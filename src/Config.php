@@ -69,10 +69,12 @@ class Config implements ConfigInterface
      */
     public function exists($name, $else = null, $literal = false)
     {
-        $literal || $else = $this->find($name, $this->items);
+        $literal || $item = $this->find($name, $this->items);
 
-        return isset($this->items[$name]) ?
+        isset($item) || $item = isset($this->items[$name]) ?
             $this->items[$name] : $else;
+
+        return $item;
     }
 
     /**
@@ -171,8 +173,7 @@ class Config implements ConfigInterface
     public function throwKeyDoesNotExist($name)
     {
         throw new KeyDoesNotExistException(
-            'Config key \'' . $name . '\' does not exist',
-            ['Config' => $this->items]
+            'Config key \'' . $name . '\' does not exist'
         );
     }
 }
