@@ -176,4 +176,16 @@ class Config implements ConfigInterface
             'Config key \'' . $name . '\' does not exist'
         );
     }
+
+
+    public function __call($name, $arguments)
+    {
+        $key = empty($arguments[0]) ? '' : '.' . $arguments[0];
+
+        if (isset($this->items[$name])) {
+            return $this->item($name . $key);
+        }
+
+        $this->throwKeyDoesNotExist($name . $key, 2, 2);
+    }
 }
