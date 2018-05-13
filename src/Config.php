@@ -140,7 +140,7 @@ class Config implements ConfigInterface
     {
         /** @noinspection PhpIncludeInspection */
         !is_file($file) || $this->setItems(
-            array_merge_recursive($this->getItems(), require_once $file)
+            array_replace_recursive($this->getItems(), require_once $file)
         );
     }
 
