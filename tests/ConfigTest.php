@@ -8,11 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase
 {
-    public function testContructor()
-    {
-        $config = new Config();
-    }
-
     public function setItems()
     {
         $expected = new Config();
@@ -93,10 +88,10 @@ class ConfigTest extends TestCase
     }
 
     /**
-     * @expectedException \Maduser\Minimal\Config\Exceptions\KeyDoesNotExistException
      */
     public function testItemThrowsKeyDoesNotExist()
     {
+        $this->expectException(KeyDoesNotExistException::class);
         $config = new Config();
         $config->item('key1', 'value1');
         $result = $config->item('key2', null, true);
@@ -144,16 +139,6 @@ class ConfigTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function testInit()
-    {
-        // TODO: test file system function
-    }
-
-    public function testFile()
-    {
-        // TODO: test file system function
-    }
-
     public function testFind()
     {
         $expected = 'value5';
@@ -178,10 +163,11 @@ class ConfigTest extends TestCase
     }
 
     /**
-     * @expectedException \Maduser\Minimal\Config\Exceptions\KeyDoesNotExistException
      */
     public function testFindWithThrow()
     {
+        $this->expectException(KeyDoesNotExistException::class);
+
         $expected = 'value5';
 
         $config = new Config();
@@ -227,10 +213,10 @@ class ConfigTest extends TestCase
     }
 
     /**
-     * @expectedException \Maduser\Minimal\Config\Exceptions\KeyDoesNotExistException
      */
     public function testThrowKeyDoesNotExist()
     {
+        $this->expectException(KeyDoesNotExistException::class);
         $config = new Config();
         $config->throwKeyDoesNotExist('key1');
     }
