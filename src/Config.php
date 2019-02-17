@@ -66,6 +66,7 @@ class Config implements ConfigInterface
      * @param bool $literal
      *
      * @return mixed|null
+     * @throws KeyDoesNotExistException
      */
     public function exists($name, $else = null, $literal = false)
     {
@@ -136,12 +137,19 @@ class Config implements ConfigInterface
     /**
      * @param $file
      */
+    public function push(array $array)
+    {
+        /** @noinspection PhpIncludeInspection */
+        $this->setItems(array_replace_recursive($this->getItems(), $array));
+    }
+
+    /**
+     * @param $file
+     */
     public function file($file)
     {
         /** @noinspection PhpIncludeInspection */
-        !is_file($file) || $this->setItems(
-            array_replace_recursive($this->getItems(), require_once $file)
-        );
+        !is_file($file) || $this->push(require_once $file);
     }
 
     /**
@@ -151,6 +159,7 @@ class Config implements ConfigInterface
      * @param bool $throw
      *
      * @return mixed
+     * @throws KeyDoesNotExistException
      */
     public function find($name, $array, $throw = false, $parent = null)
     {
@@ -186,6 +195,6 @@ class Config implements ConfigInterface
             return $this->item($name . $key);
         }
 
-        $this->throwKeyDoesNotExist($name . $key, 2, 2);
+        $this->throwKeyDoesNotExist($name . $key);
     }
 }
